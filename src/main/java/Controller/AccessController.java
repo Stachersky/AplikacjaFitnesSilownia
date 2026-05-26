@@ -1,0 +1,26 @@
+package Controller;
+
+import fitness.service.AccessService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/access")
+public class AccessController {
+
+    private final AccessService accessService;
+
+    public AccessController(AccessService accessService) {
+        this.accessService = accessService;
+    }
+
+    @PostMapping("/checkin")
+    public ResponseEntity<String> checkIn(@RequestParam Integer uzytkownikId) {
+        try {
+            String wynik = accessService.rejestrujWejscie(uzytkownikId);
+            return ResponseEntity.ok(wynik);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Błąd wejścia: " + e.getMessage());
+        }
+    }
+}
