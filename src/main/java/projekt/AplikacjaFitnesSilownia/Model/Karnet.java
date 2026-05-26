@@ -1,24 +1,25 @@
-package Model;
+package projekt.AplikacjaFitnesSilownia.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "wejscia")
+@Table(name = "karnety")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Wejscie {
+public class Karnet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "uzytkownik_id", nullable = false)
     private Uzytkownik uzytkownik;
 
-    private LocalDateTime dataGodzina;
+    private LocalDate dataZakonczenia;
+    private String status;
 }

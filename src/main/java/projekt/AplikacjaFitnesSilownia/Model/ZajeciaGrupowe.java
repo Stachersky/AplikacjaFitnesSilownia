@@ -1,4 +1,4 @@
-package Model;
+package projekt.AplikacjaFitnesSilownia.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

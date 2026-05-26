@@ -1,6 +1,6 @@
-package Repository;
+package projekt.AplikacjaFitnesSilownia.Repository;
 
-import Model.Uzytkownik;
+import projekt.AplikacjaFitnesSilownia.Model.Uzytkownik;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

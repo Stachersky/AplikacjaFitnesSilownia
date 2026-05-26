@@ -1,11 +1,11 @@
-package Service;
+package projekt.AplikacjaFitnesSilownia.Service;
 
-import Model.Karnet;
-import Model.Uzytkownik;
-import Model.Wejscie;
-import repository.KarnetRepository;
-import repository.UzytkownikRepository;
-import repository.WejscieRepository;
+import projekt.AplikacjaFitnesSilownia.Model.Karnet;
+import projekt.AplikacjaFitnesSilownia.Model.Uzytkownik;
+import projekt.AplikacjaFitnesSilownia.Model.Wejscie;
+import projekt.AplikacjaFitnesSilownia.Repository.KarnetRepository;
+import projekt.AplikacjaFitnesSilownia.Repository.UzytkownikRepository;
+import projekt.AplikacjaFitnesSilownia.Repository.WejscieRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

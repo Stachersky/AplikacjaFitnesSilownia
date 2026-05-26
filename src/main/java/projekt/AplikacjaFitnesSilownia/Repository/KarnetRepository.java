@@ -1,6 +1,6 @@
-package Repository;
+package projekt.AplikacjaFitnesSilownia.Repository;
 
-import Model.Karnet;
+import projekt.AplikacjaFitnesSilownia.Model.Karnet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
-package Controller;
+package projekt.AplikacjaFitnesSilownia.Controller;
 
-import fitness.service.AccessService;
+import projekt.AplikacjaFitnesSilownia.Service.AccessService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
