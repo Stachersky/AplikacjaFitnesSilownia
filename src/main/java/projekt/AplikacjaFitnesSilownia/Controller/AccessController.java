@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/access")
+
 public class AccessController {
 
     private final AccessService accessService;

@@ -1,9 +1,12 @@
 package projekt.AplikacjaFitnesSilownia.Repository;
 
 import projekt.AplikacjaFitnesSilownia.Model.Uzytkownik;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UzytkownikRepository extends JpaRepository<Uzytkownik, Integer> {
-    Optional<Uzytkownik> findByEmail(String email);
+@Repository
+public interface UzytkownikRepository extends CrudRepository<Uzytkownik, Integer> {
+
+    // DODAJ TYLKO TĘ LINIJKĘ:
+    Uzytkownik findByEmail(String email);
 }
