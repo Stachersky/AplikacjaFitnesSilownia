@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/access")
-
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"}) // Zabezpieczenie przed błędem CORS z Reacta
 public class AccessController {
 
     private final AccessService accessService;
