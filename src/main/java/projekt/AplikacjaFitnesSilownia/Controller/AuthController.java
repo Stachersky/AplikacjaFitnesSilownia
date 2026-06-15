@@ -1,20 +1,30 @@
 package projekt.AplikacjaFitnesSilownia.Controller;
 
+import projekt.AplikacjaFitnesSilownia.Model.Karnet;
 import projekt.AplikacjaFitnesSilownia.Model.LoginDto;
 import projekt.AplikacjaFitnesSilownia.Model.RegisterDto;
 import projekt.AplikacjaFitnesSilownia.Model.Uzytkownik;
+import projekt.AplikacjaFitnesSilownia.Repository.KarnetRepository;
 import projekt.AplikacjaFitnesSilownia.Repository.UzytkownikRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
     private final UzytkownikRepository uzytkownikRepo;
+    private final KarnetRepository karnetRepo; // DODANE: Dostęp do bazy karnetów
 
-    public AuthController(UzytkownikRepository uzytkownikRepo) {
+    // DODANE: Wstrzykujemy KarnetRepository przez konstruktor
+    public AuthController(UzytkownikRepository uzytkownikRepo, KarnetRepository karnetRepo) {
         this.uzytkownikRepo = uzytkownikRepo;
+        this.karnetRepo = karnetRepo;
     }
 
     @PostMapping("/register")
@@ -39,6 +49,25 @@ public class AuthController {
             return ResponseEntity.status(401).body("❌ Błędny e-mail lub hasło!");
         }
 
-        return ResponseEntity.ok(uzytkownik);
+        // --- NOWA LOGIKA: Sprawdzanie ważności karnetu ---
+        boolean maAktywnyKarnet = false;
+        Optional<Karnet> karnetOpt = karnetRepo.findByUzytkownikId(uzytkownik.getId());
+
+        if (karnetOpt.isPresent()) {
+            Karnet k = karnetOpt.get();
+            // Karnet jest aktywny jeśli status to ACTIVE i data zakończenia nie jest w przeszłości
+            if ("ACTIVE".equals(k.getStatus()) && !k.getDataZakonczenia().isBefore(LocalDate.now())) {
+                maAktywnyKarnet = true;
+            }
+        }
+
+        // Zamiast wysyłać całą encję, wysyłamy spersonalizowaną paczkę (Map)
+        Map<String, Object> odpowiedz = new HashMap<>();
+        odpowiedz.put("id", uzytkownik.getId());
+        odpowiedz.put("rola", uzytkownik.getRola());
+        odpowiedz.put("imie", uzytkownik.getImie());
+        odpowiedz.put("maAktywnyKarnet", maAktywnyKarnet); // Przekazujemy kluczową informację do Reacta
+
+        return ResponseEntity.ok(odpowiedz);
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/workouts")
-
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"}) // DODAJ TYLKO TĘ LINIJKĘ
 public class WorkoutController {
 
     private final WorkoutService workoutService;
