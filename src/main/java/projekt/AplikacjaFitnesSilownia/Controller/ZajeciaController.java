@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import projekt.AplikacjaFitnesSilownia.Model.Rezerwacja;
 import projekt.AplikacjaFitnesSilownia.Model.Uzytkownik;
 import projekt.AplikacjaFitnesSilownia.Model.ZajeciaGrupowe;
-import projekt.AplikacjaFitnesSilownia.Repository.RezerwacjaRepository;
+import projekt.AplikacjaFitnesSilownia.Repository.RezerwacjaRepository; // <--- TEGO IMPORTU BRAKOWAŁO
 import projekt.AplikacjaFitnesSilownia.Repository.UzytkownikRepository;
 import projekt.AplikacjaFitnesSilownia.Repository.ZajeciaGrupoweRepository;
 
@@ -84,5 +84,11 @@ public class ZajeciaController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("❌ Błąd formularza: Sprawdź poprawność wprowadzonych danych. " + e.getMessage());
         }
+    }
+
+    // 4. Klient pobiera listę swoich zapisów na zajęcia
+    @GetMapping("/klient/{klientId}")
+    public ResponseEntity<List<Rezerwacja>> mojeZajecia(@PathVariable Integer klientId) {
+        return ResponseEntity.ok(rezerwacjaRepo.findByUzytkownikId(klientId));
     }
 }
