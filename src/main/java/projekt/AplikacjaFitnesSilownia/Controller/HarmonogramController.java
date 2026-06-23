@@ -33,7 +33,7 @@ public class HarmonogramController {
 
         TreningPersonalny trening = new TreningPersonalny();
         trening.setTrener(trener);
-        // Oczyszczamy string z cudzysłowów, które czasem dorzuca React (JSON)
+
         trening.setDataGodzina(LocalDateTime.parse(dataGodzinaStr.replace("\"", "")));
         trening.setStatus("WOLNY");
 
@@ -72,5 +72,24 @@ public class HarmonogramController {
     @GetMapping("/klient/{klientId}")
     public ResponseEntity<List<TreningPersonalny>> mojeTreningi(@PathVariable Integer klientId) {
         return ResponseEntity.ok(harmonogramRepo.findByKlientId(klientId));
+    }
+    // 6. Klient anuluje zarezerwowany trening 1 na 1 (Termin wraca do puli jako WOLNY)
+    @PostMapping("/{treningId}/anuluj")
+    public ResponseEntity<String> anulujTreningKlienta(@PathVariable Integer treningId) {
+        TreningPersonalny trening = harmonogramRepo.findById(treningId).orElse(null);
+        if (trening != null) {
+            trening.setKlient(null);
+            trening.setStatus("WOLNY");
+            harmonogramRepo.save(trening);
+            return ResponseEntity.ok("✅ Odwołano trening. Termin wraca do puli wolnych.");
+        }
+        return ResponseEntity.badRequest().body("❌ Błąd: Nie znaleziono treningu.");
+    }
+
+    // 7. Instruktor całkowicie usuwa termin ze swojego grafiku
+    @DeleteMapping("/{treningId}/usun")
+    public ResponseEntity<String> usunTerminInstruktora(@PathVariable Integer treningId) {
+        harmonogramRepo.deleteById(treningId);
+        return ResponseEntity.ok("✅ Usunięto termin ze swojego grafiku.");
     }
 }

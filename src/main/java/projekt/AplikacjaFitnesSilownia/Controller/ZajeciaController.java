@@ -91,4 +91,22 @@ public class ZajeciaController {
     public ResponseEntity<List<Rezerwacja>> mojeZajecia(@PathVariable Integer klientId) {
         return ResponseEntity.ok(rezerwacjaRepo.findByUzytkownikId(klientId));
     }
+
+    // 5. Klient anuluje swoją rezerwację na zajęcia
+    @DeleteMapping("/rezerwacja/{rezerwacjaId}/anuluj")
+    public ResponseEntity<String> anulujRezerwacjeZajec(@PathVariable Integer rezerwacjaId) {
+        rezerwacjaRepo.deleteById(rezerwacjaId);
+        return ResponseEntity.ok("✅ Pomyślnie wypisano z zajęć.");
+    }
+
+    // 6. Instruktor całkowicie usuwa zajęcia z grafiku
+    @DeleteMapping("/{zajeciaId}/usun")
+    public ResponseEntity<String> usunZajecia(@PathVariable Integer zajeciaId) {
+        try {
+            zajeciaRepo.deleteById(zajeciaId);
+            return ResponseEntity.ok("✅ Usunięto zajęcia z grafiku.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("❌ Nie można usunąć zajęć (prawdopodobnie są już na nie zapisani klienci).");
+        }
+    }
 }

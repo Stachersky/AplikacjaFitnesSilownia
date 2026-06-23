@@ -15,7 +15,7 @@ public class JwtService {
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
 
-    // 1. Generowanie tokena (to już mieliśmy)
+    // 1. Generowanie tokena
     public String generujToken(String email, String rola, Integer id) {
         return Jwts.builder()
                 .setSubject(email)
@@ -27,7 +27,7 @@ public class JwtService {
                 .compact();
     }
 
-    // 2. Rozszyfrowanie tokena (NOWE)
+    // 2. Rozszyfrowanie tokena
     private Claims wyciagnijWszystkieDane(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
@@ -44,13 +44,13 @@ public class JwtService {
         return wyciagnijWszystkieDane(token).get("rola", String.class);
     }
 
-    // 3. Sprawdzanie czy token jest prawdziwy i nie wygasł (NOWE)
+    // 3. Sprawdzanie czy token jest prawdziwy i nie wygasł
     public boolean walidujToken(String token) {
         try {
             wyciagnijWszystkieDane(token);
             return true;
         } catch (Exception e) {
-            return false; // Token podrabiany lub przeterminowany!
+            return false;
         }
     }
 }

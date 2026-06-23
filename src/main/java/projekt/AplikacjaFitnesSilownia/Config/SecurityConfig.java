@@ -16,7 +16,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtFilter jwtFilter; // Dodajemy naszego Bramkarza
+    private final JwtFilter jwtFilter;
 
     public SecurityConfig(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
@@ -31,10 +31,10 @@ public class SecurityConfig {
                         // 1. Zostawiamy otwarte drzwi TYLKO dla logowania i rejestracji:
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // 2. WSZYSTKIE INNE ŚCIEŻKI WYMAGAJĄ WAŻNEGO TOKENA!
+                        // 2. WSZYSTKIE INNE ŚCIEŻKI WYMAGAJĄ WAŻNEGO TOKENA
                         .anyRequest().authenticated()
                 )
-                // 3. Ustawiamy naszego Bramkarza (JwtFilter) na samym przodzie kolejki
+                // 3. Ustawiamy JwtFilter na samym przodzie kolejki
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

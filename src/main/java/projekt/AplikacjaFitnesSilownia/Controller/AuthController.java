@@ -70,7 +70,7 @@ public class AuthController {
         odpowiedz.put("rola", uzytkownik.getRola());
         odpowiedz.put("imie", uzytkownik.getImie());
         odpowiedz.put("maAktywnyKarnet", maAktywnyKarnet);
-        odpowiedz.put("token", tokenJwt); // DOKLEJAMY TOKEN DO PACZKI
+        odpowiedz.put("token", tokenJwt);
 
         return ResponseEntity.ok(odpowiedz);
     }

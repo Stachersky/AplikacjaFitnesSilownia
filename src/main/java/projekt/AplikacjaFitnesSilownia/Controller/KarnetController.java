@@ -34,14 +34,12 @@ public class KarnetController {
             return ResponseEntity.badRequest().body("Błąd: Nie znaleziono użytkownika.");
         }
 
-        // 2. Sprawdzamy, czy klient ma już jakiś (nawet stary) karnet w bazie
+        // 2. Sprawdzamy, czy klient ma już jakiś karnet w bazie
         Optional<Karnet> istniejacyKarnet = karnetRepository.findByUzytkownikId(userId);
         Karnet karnet;
 
         if (istniejacyKarnet.isPresent()) {
             karnet = istniejacyKarnet.get();
-            // Jeśli karnet jest wygasły - odnawiamy od dziś na 30 dni
-            // Jeśli jest nadal aktywny - dodajemy 30 dni do obecnej daty końca
             if (karnet.getDataZakonczenia().isBefore(LocalDate.now())) {
                 karnet.setDataZakonczenia(LocalDate.now().plusDays(30));
             } else {
